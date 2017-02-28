@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import './BoardSelection.css';
 
 class BoardSelection extends Component {
-
-	constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
-      boards: [] 
-    };
+  static propTypes = {
+    title: PropTypes.array,
+    handler: PropTypes.func
   }
 
-  componentDidMount() {
-    fetch('http://localhost/boards')
-      .then(res => res.json())
-      .then(json => {
-        const posts = json.boards.map(obj => obj);
-        this.setState({ boards: posts });
-        console.log(this.state.boards.id)
-      });
-  }
-	
 	render(){ 
 		return(
-      <div>
-        <select>
+      <div className="BoardComp">
+        <select onChange={this.props.handler}>
           <option>Selection</option>
-          {this.state.boards.map((post, index) =>
-            <option key={index}>{post.id}{post.title}</option>
+          {this.props.title.map((post, index) =>
+            <option value={post.board} key={index}>{post.title}</option>
           )}
         </select>
       </div>
